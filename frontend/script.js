@@ -93,7 +93,7 @@ const loadEvent = async _ => {
         ${countryCards(filteredCountries, countryCard).join("")}
         `
     }
-    
+
     let filteredCountries = [];
     for (const menuItems of menuDiv.childNodes) {
         menuItems.addEventListener("click", function (event) {
@@ -129,6 +129,14 @@ const loadEvent = async _ => {
             filterCountries(filteredCountries);
         })
     }
+
+    // Remove filter
+    const logo = document.getElementById("logo");
+    logo.addEventListener("click", function (event) {
+        filterCountries(countries);
+        menuBtn.classList.remove("clicked");
+        menuDiv.classList.remove("show");
+    })
 }
 
 window.addEventListener("load", loadEvent);
