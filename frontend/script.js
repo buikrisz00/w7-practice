@@ -7,15 +7,26 @@ function Country(name, short, population, flag, continent) {
 }
 
 //Components
-const header = (logo) => {
+const header = (logo, button) => {
     return `
     <header>
         <a id="logo">${logo}</a>
-        <button></button>
+        ${button()}
     </header>
     `
 }
 
+const countryCard = (name, short, population, flag, continent) => `
+        <div class="countryCard">
+            <h2>${name}</h2>
+            <h3>${short}</h2>
+            <h4>${population}</h2>
+            <h5>${continent}</h2>
+            <img src="${flag}"></img>
+        </div>
+    `
+
+/* 
 const countryCard = (name, short, population, flag, continent) => {
     return `
         <div class="countryCard">
@@ -23,17 +34,31 @@ const countryCard = (name, short, population, flag, continent) => {
             <h3>${short}</h2>
             <h4>${population}</h2>
             <h5>${continent}</h2>
-            <img>${flag}</img>
+            <img src="${flag}"></img>
         </div>
     `;
-}
+} */
 
-const countryCards = (countries, callCountryCard) => {
+const countryCards = (countries, callCountryCard) => countries.map(country => `${callCountryCard(country.name, country.short, country.population, country.flag, country.continent)}`)
+
+/* const countryCards = (countries, callCountryCard) => {
     let toReturn = "";
-    for (const country of countries) {
-        toReturn += callCountryCard(country.name.common, country.cca3, country.population, country.flags.svg, country.continents[0]);
-    }
+    countries.map(function (country) {
+        toReturn += callCountryCard(country.name, country.short, country.population, country.flag, country.continent);
+    })
     return toReturn;
+} */
+
+const menuButton = _ => {
+    return `
+    <button id="menuBtn">
+        <svg width="40" height="40">
+            <rect width="20" height="2"/>
+            <rect width="20" height="2"/>
+            <rect width="20" height="2"/>
+        </svg>
+    </button>
+    `
 }
 
 const loadEvent = async _ => {
@@ -48,8 +73,13 @@ const loadEvent = async _ => {
     console.log(countries);
 
     const rootElement = document.getElementById("root");
-    rootElement.insertAdjacentHTML("beforeend", header("Countries"));
-    rootElement.insertAdjacentHTML("beforeend", countryCards(countries, countryCard));
+    rootElement.insertAdjacentHTML("beforeend", header("Countries", menuButton));
+    rootElement.insertAdjacentHTML("beforeend", countryCards(countries, countryCard).join(""));
+
+    const menuBtn = document.getElementById("menuBtn");
+    menuBtn.addEventListener("click", (event) => {
+        event.target.classList.toggle("clicked");
+    })
 }
 
 window.addEventListener("load", loadEvent);

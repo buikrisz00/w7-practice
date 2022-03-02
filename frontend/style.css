@@ -1,0 +1,120 @@
+/* CSS reset start */
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: none;
+    box-sizing: border-box;
+    background: transparent;
+    font-family: inherit;
+  }
+a{
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+
+button,
+a {
+    cursor: pointer;
+    color: inherit;
+}
+
+textarea {
+    resize: none;
+}
+
+button,
+textarea,
+select {
+    appearance: none !important;
+    border-radius: 0;
+}
+
+ol, ul, li {
+    list-style:none;display:block;
+}
+
+/* CSS reset end */
+
+#root {
+    width: 100%;
+}
+
+#root header {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    background-color: #1a24fb;
+}
+
+#root header a {
+    font-size: 20px;
+}
+
+#root header button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+}
+
+#root header button *{
+    pointer-events: none;
+}
+
+#root header button svg rect {
+    fill: #FFF;
+    transform-origin: center;
+    transform-box: fill-box;
+    transition: opacity 1s, transform 1s;
+}
+
+#root header button svg rect:nth-child(1) {
+    transform: translate(10px, 10px);
+}
+
+#root header button svg rect:nth-child(2) {
+    transform: translate(10px, 20px);
+}
+
+#root header button svg rect:nth-child(3) {
+    transform: translate(10px, 30px);
+}
+
+#root header button.clicked svg rect:nth-child(1) {
+    transform: translate(10px, 20px) rotate(45deg);
+   
+}
+
+#root header button.clicked svg rect:nth-child(2) {
+    transform: translate(10px, 20px);
+    opacity: 0;
+}
+
+#root header button.clicked svg rect:nth-child(3) {
+    transform: translate(10px, 20px) rotate(-45deg);
+}
+
+
+#root .countryCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+
+#root .countryCard img {
+    height: 300px;
+    width: 600px;
+}
