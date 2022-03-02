@@ -16,6 +16,17 @@ const header = (logo, button) => {
     `
 }
 
+const createMenu = (continents) => {
+    let menuItems = "";
+    for (const continent of continents) {
+        menuItems += `<div>${continent}</div>`
+    }
+
+    return `
+    <div class="menu">${menuItems}</div>
+    `
+}
+
 const countryCard = (name, short, population, flag, continent) => `
         <div class="countryCard">
             <h2>${name}</h2>
@@ -26,28 +37,7 @@ const countryCard = (name, short, population, flag, continent) => `
         </div>
     `
 
-/* 
-const countryCard = (name, short, population, flag, continent) => {
-    return `
-        <div class="countryCard">
-            <h2>${name}</h2>
-            <h3>${short}</h2>
-            <h4>${population}</h2>
-            <h5>${continent}</h2>
-            <img src="${flag}"></img>
-        </div>
-    `;
-} */
-
 const countryCards = (countries, callCountryCard) => countries.map(country => `${callCountryCard(country.name, country.short, country.population, country.flag, country.continent)}`)
-
-/* const countryCards = (countries, callCountryCard) => {
-    let toReturn = "";
-    countries.map(function (country) {
-        toReturn += callCountryCard(country.name, country.short, country.population, country.flag, country.continent);
-    })
-    return toReturn;
-} */
 
 const menuButton = _ => {
     return `
@@ -70,16 +60,51 @@ const loadEvent = async _ => {
     let countries = countryArr.map(function (country) {
         return new Country(country.name.common, country.cca3, country.population, country.flags.svg, country.continents[0]);
     })
-    console.log(countries);
+
+    let continents = [];
+    for (const country of countries) {
+        let isDuplicate = false;
+        for (let i = 0; i <= continents.length; i++) {
+            if (country.continent === continents[i]) {
+                isDuplicate = true;
+            }            
+        }
+        if (!isDuplicate) {
+            continents.push(country.continent);
+        }
+    }
 
     const rootElement = document.getElementById("root");
     rootElement.insertAdjacentHTML("beforeend", header("Countries", menuButton));
-    rootElement.insertAdjacentHTML("beforeend", countryCards(countries, countryCard).join(""));
+    rootElement.insertAdjacentHTML("beforeend", `<div class="container">${countryCards(countries, countryCard).join("")}</div>`);
+    rootElement.insertAdjacentHTML("beforeend", createMenu(continents))
 
     const menuBtn = document.getElementById("menuBtn");
+    const menuDiv = document.querySelector(".menu");
+    const containerDiv = document.querySelector(".container");
     menuBtn.addEventListener("click", (event) => {
         event.target.classList.toggle("clicked");
+        menuDiv.classList.toggle("show");
     })
+
+    // Filter countries
+    const filterCountries = function (filteredCountries) {
+        containerDiv.innerHTML = `
+        ${countryCards(filteredCountries, countryCard).join("")}
+        `
+    }
+    let filteredCountries = [];
+    for (const menuItems of menuDiv.childNodes) {
+        menuItems.addEventListener("click", function (event) {
+            filteredCountries = [];
+            for (const country of countries) {
+                if (country.continent === event.target.innerHTML) {
+                    filteredCountries.push(country);
+                }
+            }
+            filterCountries(filteredCountries);
+        })
+    }
 }
 
 window.addEventListener("load", loadEvent);
