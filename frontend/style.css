@@ -153,6 +153,10 @@ ol, ul, li {
     cursor: pointer;
 }
 
+#root .menu div.clickedDiv {
+    background-color: #5d5f81;
+}
+
 #root .container {
     position: absolute;
     top: 70px;

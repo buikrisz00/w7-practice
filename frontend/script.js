@@ -93,15 +93,39 @@ const loadEvent = async _ => {
         ${countryCards(filteredCountries, countryCard).join("")}
         `
     }
+    
     let filteredCountries = [];
     for (const menuItems of menuDiv.childNodes) {
         menuItems.addEventListener("click", function (event) {
+            // Clicked background color change
+
+            // Create empty array for siblings
+            let siblings = [];
+            // Set first sibling of the menu div
+            let sibling = event.target.parentNode.firstChild;
+            // Collect all child items of menu divs into the siblings array
+            for (let i = 0; i < event.target.parentNode.childElementCount; i++) {
+                siblings.push(sibling);
+                sibling = sibling.nextSibling;
+            }
+            // Iterate through the siblings array and remove the clickedDiv class from all
+            for (const sib of siblings) {
+                sib.classList.remove("clickedDiv");
+            }
+            // Add clickedDiv class to the clicked item for background color change
+            event.target.classList.add("clickedDiv");
+
+            // Country filtering
+
+            // Empty the filteredCountries array
             filteredCountries = [];
+            // Iterate through the countries array and filter for clicked continent
             for (const country of countries) {
                 if (country.continent === event.target.innerHTML) {
                     filteredCountries.push(country);
                 }
             }
+            // Call filterCountries method with new filteredCountries array
             filterCountries(filteredCountries);
         })
     }
