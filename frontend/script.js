@@ -30,9 +30,11 @@ const createMenu = (continents) => {
 const countryCard = (name, short, population, flag, continent) => `
         <div class="countryCard">
             <h2>${name}</h2>
-            <h3>${short}</h2>
-            <h4>${population}</h2>
-            <h5>${continent}</h2>
+            <div class="details">
+                <h3>${short}</h3>
+                <h3>${population}</h3>
+                <h3>${continent}</h3>
+            </div>
             <img src="${flag}"></img>
         </div>
     `
@@ -77,7 +79,7 @@ const loadEvent = async _ => {
     const rootElement = document.getElementById("root");
     rootElement.insertAdjacentHTML("beforeend", header("Countries", menuButton));
     rootElement.insertAdjacentHTML("beforeend", `<div class="container">${countryCards(countries, countryCard).join("")}</div>`);
-    rootElement.insertAdjacentHTML("beforeend", createMenu(continents))
+    rootElement.insertAdjacentHTML("beforeend", createMenu(continents.sort()))
 
     const menuBtn = document.getElementById("menuBtn");
     const menuDiv = document.querySelector(".menu");
@@ -126,7 +128,7 @@ const loadEvent = async _ => {
                 }
             }
             // Call filterCountries method with new filteredCountries array
-            filterCountries(filteredCountries);
+            filterCountries(filteredCountries.sort());
         })
     }
 

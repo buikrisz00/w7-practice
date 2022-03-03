@@ -159,6 +159,9 @@ ol, ul, li {
 
 #root .container {
     position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     top: 70px;
     width: 100%;
     background-color: #b8bae0;
@@ -170,8 +173,19 @@ ol, ul, li {
     justify-content: space-evenly;
     align-items: center;
     height: 500px;
-    width: 100%;
+    width: 700px;
     border-bottom: 1px solid #000;
+}
+
+#root .countryCard:nth-child(2n-1) {
+    border-right: 1px solid rgb(34, 30, 49);
+}
+
+#root .countryCard .details {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 50px;
 }
 
 #root .countryCard h2{
@@ -181,4 +195,10 @@ ol, ul, li {
 #root .countryCard img {
     height: 300px;
     width: 600px;
+}
+
+@media (max-width: 1399px) {
+    #root .countryCard:nth-child(2n-1) {
+        border-right: unset;
+    }
 }
