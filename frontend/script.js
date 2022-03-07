@@ -1,7 +1,7 @@
 // Load esemény + form + 3 input mező (szöveges) + gomb
 // Minden input mezőre input esemény menjen rá --> console.logolja ki az értékét az input mezőnek
 
-function loadEvent() {
+async function loadEvent() {
     const rootElement = document.getElementById("root");
     rootElement.insertAdjacentHTML("beforeend", `
     <form>
@@ -39,6 +39,20 @@ function loadEvent() {
         event.preventDefault();
         console.log(event.target);
     })
+
+    const apiKey = "MQDFPbyygp3ONA3J2zcHkIqLbdYEJcU0ss2MDhqH";
+    const requestedDate = "2022-02-22"
+
+    const apod = await fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${requestedDate}`);
+    const apodJSON = await apod.json();
+
+    fetch(`https://api.nasa.gov/planetary/apod?api_key=${apiKey}&date=${requestedDate}`)
+        .then(function (apodResponse) {
+            console.log(apodResponse);
+            apodResponse.json().then(function (apodResponseJSON) {
+                console.log(apodResponseJSON.explanation); 
+            })
+        })
 }
 
 window.addEventListener("load", loadEvent);
